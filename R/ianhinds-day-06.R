@@ -37,3 +37,4 @@ covid %>%
   geom_line(color = "blue", size = 2) %>%
   ggtheme::theme_classic(covid)
 
+#END
