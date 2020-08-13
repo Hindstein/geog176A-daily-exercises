@@ -41,8 +41,9 @@ covid %>%
   pivot_longer(cols = c('cases', 'deaths')) %>%
 
 #plot
-ggplot(covid_region, aes(x = date, y = value)) +
-  geom_line(aes(col = "region")) +
+ggplot(aes(x = date, y = value)) +
+  geom_line(aes(col = region)) +
   facet_grid(name~region, scale = "free_y") +
   theme_linedraw() +
   theme(legend.position = "bottom")
+
