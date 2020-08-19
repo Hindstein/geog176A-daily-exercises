@@ -9,6 +9,7 @@ conus = USAboundaries::us_states() %>%
   filter(!state.name %in% c("Puerto Rico",
                             "Alaska",
                             "Hawaii"))
+# Error in data.matrix(data) : 'list' object cannot be coerced to type 'double'
 length(st_geometry(conus))
 
 (comb_multi = st_combine(conus) %>%
