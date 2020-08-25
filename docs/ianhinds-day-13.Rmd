@@ -1,6 +1,6 @@
 ### Author: Ian Hinds
 ### Date: 25 Aug 2020
-### Purpose: 
+### Purpose: Familiarizing st_simplify and rmapshaper
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 library(rmapshaper)
