@@ -1,0 +1,67 @@
+### Author: Ian Hinds
+### Date: 25 Aug 2020
+### Purpose: 
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+library(rmapshaper)
+library(tidyverse)
+library(sf)
+library(USAboundaries)
+```
+```{r}
+conus = USAboundaries::us_states() %>%
+  filter(!state_name %in% c("Puerto Rico", 
+                            "Alaska",
+                            "Hawaii")) %>%
+  st_union() %>%
+  st_transform(5070)
+
+conus1000 = st_simplify(conus, dTolerance = 10000)
+conus10000 = st_simplify(conus, dTolerance = 100000)
+conus100000 = st_simplify(conus, dTolerance = 100000)
+
+plot(conus)
+
+# Will later become "conus_st"
+plot(conus1000)
+
+plot(conus10000)
+```
+
+
+```{r}
+plot(conus100000)
+
+```
+
+```{r}
+# Will later become "conus_ms"
+conus10 = ms_simplify(conus, keep = .1)
+plot(conus10)
+```
+```{r}
+conus5 = ms_simplify(conus, keep = .05)
+plot(conus5)
+```
+```{r}
+conus1 = ms_simplify(conus, keep = .01)
+plot(conus1)
+```
+
+```{r}
+# define conus_st and conus_ms
+conus_st = st_simplify(conus, dTolerance = 1000)
+conus_ms =  ms_simplify(conus, keep = .1)
+
+# number of points in raw "conus" data
+mapview::npts(conus)
+
+# number of points in st simplified "conus" data
+mapview::npts(conus_st)
+
+# number of points in ms simplified "conus" data
+mapview::npts(conus_ms)
+```
+```{r}
+```
+
