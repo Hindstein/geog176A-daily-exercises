@@ -16,34 +16,28 @@ library(readr)
 library(elevatr)
 library(tidyverse)
 library(sf)
+library(raster)
 
 goleta <- read.csv("../data/uscities.csv") %>%
   filter(city %in% c("Goleta")) %>%
   st_as_sf(coords = c("lng", "lat"), crs = 4326) %>%
   st_transform(5070) %>%
-  st_buffer(5000) 
-
-#bounding box
-bb = st_bbox(goleta)
-
-#box as sfc then sf
-bb2 = st_as_sfc(bb)
-bb3 = st_as_sf(bb2)
-bb3
-
-plot(bb3, border = rgb(0,0,1))
-plot(goleta, add = TRUE, col = rgb(1,0,0, .5))
-
+  st_buffer(5000) %>%
+  st_bbox() %>%
+  st_as_sfc() %>%
+  st_as_sf ()
 
 #elevatr
-#elevation = elevatr::get_elev_raster(goleta, bb3, src = c("aws"))
-                         
-                         
-grid = st_make_grid(bb3)
-plot(goleta$geometry)
-plot(grid, add = TRUE)
+elevation = elevatr::get_elev_raster(goleta, z=11) %>% crop(goleta)
+writeRaster(elevation, filename = "../data/goleta-elevation.tif", overwrite = TRUE)
 
+elevation = raster("../data/goleta-elevation.tif")
+
+plot(elevation)
+
+                         
+                        
 
 
 ```
-
+The raster labels higher elevations as green, and sea level as white. X and Y axis represent longitude and latitude respectively.
