@@ -60,19 +60,15 @@ thresh = function(x) (ifelse(x <= 0, NA, 1))
 
 cal = calc(goletaelev, thresh)
 
-plot(goletaelev)
-
-plot(cal, col = "black")
-
 ocean = cal * goletaelev
-plot(ocean)
+
 
 rec = data.frame(min = seq(0, 500, 100), max = seq(100, 600, 100), lab = c(0:5))
 
 reclass = reclassify(ocean, rec, lowerTRUE = TRUE)
 
-st = stack(goletaelev, cal, ocean, reclass) 
-  #setNames('elev', 'land', 'coast', 'reclass') 
+st = stack(goletaelev, cal, ocean, reclass) %>%
+  setNames(c("elev", "land", "coast", "topo")) 
 
 plot(st)
 
