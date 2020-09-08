@@ -1,0 +1,41 @@
+## Author: Ian Hinds
+## Date: 9 Sep 2020
+## Purpose: Terrain Processing
+
+We are going to evaluate the terrain near Mount Saint Helens
+
+* Get a representation of Mount Saint Helens using AOI::aoi_get()
+* Buffer the returned polygon by a 1/2 mile
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
+library(whitebox)
+library(elevatr)
+```
+
+```{r}
+mtsh = AOI::aoi_get("Mount Saint Helens") %>%
+  AOI::aoi_buffer(0.5)
+```
+
+**In a chunk with eval = FALSE**
+* Get elevation for this AOI using elevatr and a zoom of 12
+* Write the raster as a tif to your data folder
+* Create a hillshade, slope, and aspect raster using whitebox
+be intentional with you path names
+
+```{r}
+eval = FALSE
+elev = elevatr::get_elev_raster(mtsh, z = 12) %>%
+  crop(mtsh)
+
+writeRaster(elev, "../data/mtsh-area-elev.tif", overwrite = TRUE)
+
+wbt_hillshade("../data/mtsh-area-elev.tif", "../data/mtsh-area-hillshade.tif")
+
+r = raster("../data/mtsh-area-elev.tif")
+plot(r,  box = FALSE, axes = FALSE, col = gray.colors(256))
+
+  
+
+```
+
