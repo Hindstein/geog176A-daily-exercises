@@ -1,0 +1,59 @@
+## Author: Ian Hinds
+## Date: 6 Sep 2020
+## Purpose: Climate Classification
+
+```{r message=FALSE, warning=FALSE}
+library(readr)
+library(elevatr)
+library(tidyverse)
+library(sf)
+library(raster)
+library(climateR)
+library(USAboundaries)
+library(exactextractr)
+```
+Pick 2-4 climate variables for a state of your choice for one month of your choice (winter,summer, spring, etc)
+
+* Pick your climate variables based on the state and month you choose
+* You can find available climate variables using (param_meta$terraclim) (use the call column)
+* Implement a k-means classification for your state and your variables.
+* Plot your final image using a nice color palette
+
+```{r message=FALSE, warning=FALSE}
+param_meta$terraclim
+
+#define climate variables
+params = c("tmax", "tmin","prcp", "q")
+
+#define AOI
+AOI = USAboundaries::us_states() %>% 
+  filter(name == "Tennessee") 
+
+#combine variables and extract data
+#tn = getTerraClim(AOI, params, startDate = "2018-9-01")  %>%
+#  stack() %>% 
+#  setNames(params) 
+
+#Warning in .Internal(socketAccept(socket, blocking, open, encoding, timeout)) :closing unused connection 125 (<-GIS5050two.utk.tennessee.edu:11091)
+#Error in socketAccept(socket = socket, blocking = TRUE, open = "a+b",: all connections are in use
+
+#plot attempt
+#plot(tn) #not working out
+
+# Prep data Attempt
+#idx = which(!is.na(tn))
+#v = na.omit(tn)
+#vs = scale(v)
+
+#Cluster Attempt
+#E = kmeans(vs, 5, iter.max = 100)
+#clus_raster = elev[[1]]
+#values(clus_raster) = NA
+#clus_raster[idx] <- E$cluster
+
+# Palette Attempt, cannot complete
+#palette = colorRampPalette(c("blue", "white", "red"))
+#plot(vs, col = palette(256))
+
+```
+

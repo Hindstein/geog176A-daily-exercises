@@ -1,5 +1,5 @@
 ## Author: Ian Hinds
-## Date: 1 Sep 2020
+## Date: 1-3 Sep 2020
 ## Purpose: First Raster
 
 ### Day 17
@@ -48,11 +48,6 @@ The raster labels higher elevations as green, and sea level as white. X and Y ax
 *****
 
 ### Day 18
-
-
-
-
-
 ```{r}
 goletaelev = raster("../data/goleta-elevation.tif")
 
@@ -71,6 +66,36 @@ st = stack(goletaelev, cal, ocean, reclass) %>%
   setNames(c("elev", "land", "coast", "topo")) 
 
 plot(st)
+
+```
+### Day 19
+```{r message=FALSE, warning=FALSE}
+#load osm
+library(osmdata)
+library(dplyr)
+# check features
+#head(available_features())
+
+#amenities
+#head(available_tags("amenity"))
+
+#shops
+#head(available_tags("shop"))
+
+#define goleta restaurants
+goleta_bb = st_bbox(st) %>%
+  st_as_sfc() %>%
+  st_transform(4326)
+
+goleta_rest = osmdata::opq(goleta_bb) %>%
+  add_osm_feature(key = "amenity", value = "restaurant") %>%
+  osmdata_sf()
+
+print(goleta_rest)
+
+#need to remove locations without names, extract elevations, create a leaflet map
+
+
 
 ```
 
